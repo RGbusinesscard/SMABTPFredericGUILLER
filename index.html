@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Frédéric Guiller — SMA BTP (Mobile)</title>
-  <meta name="description" content="Carte de visite mobile — SMA BTP Tours. Appel, e-mail, itinéraire et vCard en un geste." />
+  <meta name="description" content="Carte de visite mobile — SMA BTP Tours. Appel, e-mail, itinéraire et lien vers RG.card." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
@@ -27,8 +27,6 @@
       color:#fff;
       background: radial-gradient(900px 500px at 80% -10%, #123258 0%, #0b1b33 60%, #081628 100%);
     }
-
-    /* HEADER compact */
     .topbar{
       position:sticky; top:0; z-index:50;
       display:flex; align-items:center; justify-content:space-between; gap:12px;
@@ -42,8 +40,6 @@
     .brand .text b{color:#cfe2ff}
     .site{color:#e7f0ff;text-decoration:none;font-weight:800;background:#0d223b;border:1px solid rgba(255,255,255,.08);
       padding:8px 10px;border-radius:999px}
-
-    /* HERO mobile */
     .hero{
       position:relative; overflow:hidden; isolation:isolate;
       padding:22px 16px 8px;
@@ -60,23 +56,20 @@
       animation:slideIn 1s cubic-bezier(.2,.8,.2,1) .12s both;
     }
     @keyframes slideIn{from{opacity:0; transform:translateY(40px) skewX(-12deg)} to{opacity:1; transform:translateY(0) skewX(-12deg)}}
-
-    /* CARTE avec fond transparent + dégradé SMA BTP */
     .card{
       position:relative; z-index:1;
       background: linear-gradient(
         145deg,
-        rgba(0,59,115,0.12) 0%,   /* Bleu SMA léger transparent */
-        rgba(227,6,19,0.12) 100%  /* Rouge SMA léger transparent */
+        rgba(0,59,115,0.12) 0%,
+        rgba(227,6,19,0.12) 100%
       );
-      border: 1px solid rgba(255,255,255,0.4); /* Encadrement blanc plus transparent */
+      border: 1px solid rgba(255,255,255,0.4);
       color:#0c1b2e;
       border-radius:16px;
       padding:16px;
       box-shadow:0 18px 36px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.3);
-      backdrop-filter: blur(10px) saturate(1.2); /* Effet verre dépoli */
+      backdrop-filter: blur(10px) saturate(1.2);
     }
-
     .id{display:grid; grid-template-columns:64px 1fr; gap:12px; align-items:center}
     .avatar{
       width:64px;height:64px;border-radius:14px;
@@ -88,8 +81,6 @@
     .name{margin:0; font-size:22px; font-weight:900; color:var(--sma-navy)}
     .role{margin:2px 0 0 0; font-weight:700; color:#1e3c61; font-size:14px}
     .org{margin:6px 0 0 0; color:#3b5574; font-weight:600; font-size:13px}
-
-    /* ACTION GRID (2x2) */
     .grid{
       margin-top:12px;
       display:grid; grid-template-columns:1fr 1fr; gap:10px;
@@ -105,13 +96,9 @@
     .btn:active{transform:scale(.98)}
     .btn.primary{background:var(--sma-red); color:#fff; border-color:transparent}
     .ico{font-size:20px}
-
-    /* INFO LIST */
     .list{margin:12px 0 0 0; padding:0; list-style:none; display:grid; gap:8px}
     .list li{background:#f5f8ff; border:1px solid rgba(0,0,0,.06); color:#102844; border-radius:12px; padding:10px 12px; font-weight:600; font-size:14px}
     .list a{color:var(--sma-blue); text-decoration:none; font-weight:800}
-
-    /* STICKY BOTTOM CTA */
     .sticky{
       position:fixed; left:0; right:0; bottom:0; z-index:40;
       display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
@@ -122,7 +109,6 @@
       display:flex; align-items:center; justify-content:center; gap:8px;
       padding:14px 8px; }
     .sbtn .ico{font-size:18px}
-
     .footer{padding:14px; padding-bottom:calc(14px + var(--safe)); text-align:center; color:#a7bad3; font-size:12px}
   </style>
 </head>
@@ -153,7 +139,7 @@
         <a class="btn primary" href="tel:+33661027444"><span class="ico">📞</span> Appeler</a>
         <a class="btn" href="mailto:frederic.guiller@smabtp.fr"><span class="ico">✉️</span> Écrire</a>
         <a class="btn" href="https://maps.apple.com/?address=30%20Rue%20Fran%C3%A7ois%20Hardouin,%2037100%20Tours,%20France" target="_blank" rel="noopener"><span class="ico">📍</span> Itinéraire</a>
-        <a id="saveContact" class="btn" href="#"><span class="ico">➕</span> Ajouter contact</a>
+        <a id="rgCardBtn" class="btn" href="#"><span class="ico">💳</span> RG.card</a>
       </div>
 
       <ul class="list">
@@ -167,7 +153,7 @@
   <nav class="sticky" aria-label="Actions rapides">
     <a class="sbtn" href="tel:+33661027444"><span class="ico">📞</span> Appeler</a>
     <a class="sbtn" href="mailto:frederic.guiller@smabtp.fr"><span class="ico">✉️</span> Écrire</a>
-    <a class="sbtn" href="#" id="saveContactSticky"><span class="ico">➕</span> vCard</a>
+    <a class="sbtn" href="#" id="rgCardBtnSticky"><span class="ico">💳</span> RG.card</a>
   </nav>
 
   <footer class="footer">
@@ -175,35 +161,18 @@
   </footer>
 
   <script>
-    const vcf = [
-      'BEGIN:VCARD',
-      'VERSION:3.0',
-      'N:Guiller;Frédéric;;;',
-      'FN:Frédéric Guiller',
-      'ORG:SMA BTP Tours',
-      'TITLE:Conseiller en assurances grands comptes régionaux',
-      'TEL;TYPE=CELL:+33661027444',
-      'EMAIL:frederic.guiller@smabtp.fr',
-      'ADR;TYPE=WORK:;;30 Rue François Hardouin;Tours;;37100;France',
-      'URL:https://www.smabtp.fr',
-      'END:VCARD'
-    ].join('\n');
-
-    function downloadVCF(){
-      const blob = new Blob([vcf], {type: 'text/vcard;charset=utf-8'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'Frederic_Guiller.vcf';
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(()=>{
-        URL.revokeObjectURL(url);
-        a.remove();
-      }, 1000);
+    function openRGCard(){
+      alert("Créateur de la carte de visite");
+      window.location.href = "https://www.instagram.com/rg.card?igsh=cHNtOTdjN2IxaHBl";
     }
-    document.getElementById('saveContact').addEventListener('click', (e)=>{ e.preventDefault(); downloadVCF(); });
-    document.getElementById('saveContactSticky').addEventListener('click', (e)=>{ e.preventDefault(); downloadVCF(); });
+    document.getElementById('rgCardBtn').addEventListener('click', function(e){
+      e.preventDefault();
+      openRGCard();
+    });
+    document.getElementById('rgCardBtnSticky').addEventListener('click', function(e){
+      e.preventDefault();
+      openRGCard();
+    });
   </script>
 </body>
 </html>
