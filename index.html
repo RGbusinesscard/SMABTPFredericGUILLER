@@ -138,8 +138,8 @@
       <div class="grid" role="navigation" aria-label="Actions principales">
         <a class="btn primary" href="tel:+33661027444"><span class="ico">📞</span> Appeler</a>
         <a class="btn" href="mailto:frederic.guiller@smabtp.fr"><span class="ico">✉️</span> Écrire</a>
+        <a id="saveContact" class="btn" href="#"><span class="ico">➕</span> Ajouter contact</a>
         <a class="btn" href="https://maps.apple.com/?address=30%20Rue%20Fran%C3%A7ois%20Hardouin,%2037100%20Tours,%20France" target="_blank" rel="noopener"><span class="ico">📍</span> Itinéraire</a>
-        <a id="rgCardBtn" class="btn" href="#"><span class="ico">💳</span> RG.card</a>
       </div>
 
       <ul class="list">
@@ -153,7 +153,7 @@
   <nav class="sticky" aria-label="Actions rapides">
     <a class="sbtn" href="tel:+33661027444"><span class="ico">📞</span> Appeler</a>
     <a class="sbtn" href="mailto:frederic.guiller@smabtp.fr"><span class="ico">✉️</span> Écrire</a>
-    <a class="sbtn" href="#" id="rgCardBtnSticky"><span class="ico">💳</span> RG.card</a>
+    <a class="sbtn" href="#" id="rgCardBtnSticky">RG.card</a>
   </nav>
 
   <footer class="footer">
@@ -161,14 +161,40 @@
   </footer>
 
   <script>
+    // Fonction Ajouter Contact
+    const vcf = [
+      'BEGIN:VCARD',
+      'VERSION:3.0',
+      'N:Guiller;Frédéric;;;',
+      'FN:Frédéric Guiller',
+      'ORG:SMA BTP Tours',
+      'TITLE:Conseiller en assurances grands comptes régionaux',
+      'TEL;TYPE=CELL:+33661027444',
+      'EMAIL:frederic.guiller@smabtp.fr',
+      'ADR;TYPE=WORK:;;30 Rue François Hardouin;Tours;;37100;France',
+      'URL:https://www.smabtp.fr',
+      'END:VCARD'
+    ].join('\n');
+    function downloadVCF(){
+      const blob = new Blob([vcf], {type: 'text/vcard;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Frederic_Guiller.vcf';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 1000);
+    }
+    document.getElementById('saveContact').addEventListener('click', function(e){
+      e.preventDefault();
+      downloadVCF();
+    });
+
+    // Bouton RG.card en bas
     function openRGCard(){
       alert("Créateur de la carte de visite");
       window.location.href = "https://www.instagram.com/rg.card?igsh=cHNtOTdjN2IxaHBl";
     }
-    document.getElementById('rgCardBtn').addEventListener('click', function(e){
-      e.preventDefault();
-      openRGCard();
-    });
     document.getElementById('rgCardBtnSticky').addEventListener('click', function(e){
       e.preventDefault();
       openRGCard();
