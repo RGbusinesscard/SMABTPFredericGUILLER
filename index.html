@@ -15,7 +15,6 @@
       --sma-blue:#003b73;
       --ink:#0c1424;
       --muted:#89a0bc;
-      --panel:rgba(255,255,255,.9);
       --bg:#0a1424;
       --radius:18px;
       --safe: env(safe-area-inset-bottom, 0);
@@ -26,8 +25,7 @@
       margin:0;
       font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color:#fff;
-      background:
-        radial-gradient(900px 500px at 80% -10%, #123258 0%, #0b1b33 60%, #081628 100%);
+      background: radial-gradient(900px 500px at 80% -10%, #123258 0%, #0b1b33 60%, #081628 100%);
     }
 
     /* HEADER compact */
@@ -63,15 +61,22 @@
     }
     @keyframes slideIn{from{opacity:0; transform:translateY(40px) skewX(-12deg)} to{opacity:1; transform:translateY(0) skewX(-12deg)}}
 
+    /* CARTE avec fond transparent + dégradé SMA BTP */
     .card{
       position:relative; z-index:1;
-      background:var(--panel);
-      border:1px solid rgba(13,43,75,.15);
+      background: linear-gradient(
+        145deg,
+        rgba(0,59,115,0.12) 0%,   /* Bleu SMA léger transparent */
+        rgba(227,6,19,0.12) 100%  /* Rouge SMA léger transparent */
+      );
+      border: 1px solid rgba(255,255,255,0.4); /* Encadrement blanc plus transparent */
       color:#0c1b2e;
       border-radius:16px;
       padding:16px;
-      box-shadow:0 18px 36px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.6);
+      box-shadow:0 18px 36px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.3);
+      backdrop-filter: blur(10px) saturate(1.2); /* Effet verre dépoli */
     }
+
     .id{display:grid; grid-template-columns:64px 1fr; gap:12px; align-items:center}
     .avatar{
       width:64px;height:64px;border-radius:14px;
@@ -170,7 +175,6 @@
   </footer>
 
   <script>
-    // Génère et télécharge une vCard
     const vcf = [
       'BEGIN:VCARD',
       'VERSION:3.0',
@@ -183,7 +187,7 @@
       'ADR;TYPE=WORK:;;30 Rue François Hardouin;Tours;;37100;France',
       'URL:https://www.smabtp.fr',
       'END:VCARD'
-    ].join('\\n');
+    ].join('\n');
 
     function downloadVCF(){
       const blob = new Blob([vcf], {type: 'text/vcard;charset=utf-8'});
